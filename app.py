@@ -4,14 +4,17 @@ from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_requir
 
 from werkzeug.security import generate_password_hash, check_password_hash
 import uuid
+from dotenv import load_dotenv
 
 import datetime
 import os
 
+load_dotenv()
+
 app = Flask(__name__)
 
 app.config["SECRET_KEY"] = os.getenv("FLASK_SECRET_KEY")
-app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("SQLALCHEMY_DATABASE_URI") # "sqlite:///database.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("SQLALCHEMY_DATABASE_URI")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
 app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = datetime.timedelta(minutes=int(os.getenv("JWT_ACCESS_TOKEN_EXPIRES")))
