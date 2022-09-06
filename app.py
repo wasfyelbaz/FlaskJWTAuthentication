@@ -74,7 +74,7 @@ def signup_user():
         }), 400
 
     # chek if user exists
-    if Users.query.filter_by(name=data["username"]).first() is not None:
+    if Users.query.filter_by(username=data["username"]).first() is not None:
         return jsonify({
             "msg": "User already exists "
         }), 400
@@ -89,7 +89,7 @@ def signup_user():
     hashed_password = generate_password_hash(data["password"], method="sha256")
 
     # add user to the database
-    new_user = Users(public_id=str(uuid.uuid4()), name=data["username"], password=hashed_password, admin=False)
+    new_user = Users(public_id=str(uuid.uuid4()), username=data["username"], password=hashed_password, admin=False)
     db.session.add(new_user)
     db.session.commit()
 
@@ -105,7 +105,7 @@ def login_user():
     except Exception:
         return jsonify({"msg": "Invalid JSON format"}), 400
 
-    user = Users.query.filter_by(name=data["username"]).first()
+    user = Users.query.filter_by(username=data["username"]).first()
     # user doesn't exist
     if user is None:
         return jsonify({"msg": "Invalid username or password"}), 401
